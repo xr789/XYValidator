@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>xyv demo </title>
+<style>
+<!--
+body{
+	padding:0px; margin:0px; font-size:12px;
+}
+form{
+	display:inline;
+}
+#form1 table{
+	border:0px;
+}
+#form1 table th{
+	line-height:30px; text-align:right
+}
+#form1 table td{
+	line-height:30px; text-align:left
+}
+#form1 TABLE span{
+	color:#808080; padding:0px 5px;
+}
+-->
+</style>
+</head>
+<body>
+<div style="width:800px; height:auto; text-align:center; border:solid 1px #808080; margin:60px auto 0px auto">
+  <div style="line-height:50px; font-size:16px; font-weight:bold">form test</div>
+  <form id="form1">
+	<table width="800" border="0" cellspacing="0" cellpadding="0">
+	  <tr>
+		<th><span>姓名</span></th>
+		<td><span><input type="text" name="a1" /></span></td>
+		<td><span>校验规则:必须填写, 长度校验(2-30个字符)</span></td>
+	  </tr>
+	  <tr>
+		<th><span>性别</span></th>
+		<td><span>
+			<select name="a2">
+				<option value="">==请选择==</option>
+				<option value="male">男</option>
+				<option value="female">女</option>
+			</select>
+		</span></td>
+		<td><span>校验规则:必须选择</span></td>
+	  </tr>
+	  <tr>
+		<th><span>手机号码</span></th>
+		<td><span><input type="text" name="a3" /></span></td>
+		<td><span>校验规则:必须是11位手机号码</span></td>
+	  </tr>
+	  <tr>
+		<th><span>电子邮箱</span></th>
+		<td><span><input type="text" name="a4" /></span></td>
+		<td><span>校验规则:合法邮箱地址</span></td>
+	  </tr>
+	  <tr>
+		<th><span>固定电话</span></th>
+		<td><span><input type="text" name="a5" /></span></td>
+		<td><span>校验规则:合法固定电话号码(010-66523321-1145)</span></td>
+	  </tr>
+	  <tr>
+		<th><span>兴趣/爱好</span></th>
+		<td><span>
+			<label><input type="checkbox" name="a6" value="1"/>&nbsp;游泳</label>
+			<label><input type="checkbox" name="a6" value="2"/>&nbsp;跑步</label>
+			<label><input type="checkbox" name="a6" value="3"/>&nbsp;登山</label>
+			<label><input type="checkbox" name="a6" value="4"/>&nbsp;电玩</label>
+			<label><input type="checkbox" name="a6" value="5"/>&nbsp;其他</label>
+		</span></td>
+		<td><span>校验规则:至少选择2项</span></td>
+	  </tr>
+	  <tr>
+		<th><span>用户名</span></th>
+		<td><span><input type="text" name="a7" /></span></td>
+		<td><span>校验规则:正则(数字字母组成)</span></td>
+	  </tr>
+	  <tr>
+		<th><span>出生日期</span></th>
+		<td><span><input type="text" name="a8" /></span></td>
+		<td><span>校验规则:建议使用控件输入</span><br /><span>yyyy-MM-dd(,不能早于1900-01-01,晚于2014-01-01)</span></td>
+	  </tr>
+	  <tr>
+		<td colspan="3" style="text-align:center;"><input type="submit" id="sbtn1" value="提交" /></td>
+	  </tr>
+	</table>
+  </form>
+</div>
+<script type="text/javascript" src="xyv-2.0.0.js"></script>
+<script>
+(function(){
+	var xyv = new XYV("form1",
+		{
+		shortVerify:"N",/*是否短路校验,默认Y*/
+		beforeSubmit:function(){
+			alert("马上提交了,如果直接提交请返回true, 如果想使用ajax自行提交请返回false");
+			return false;
+		}
+	});
+	xyv.add({name:"a1",cmd:"req",message:"请填写姓名"});
+	xyv.add({name:"a1",cmd:"len", minLength:2, maxLength:30,message:"姓名长度2-30"});
+	xyv.add({name:"a2",cmd:"req",message:"请选择 性别"});
+	xyv.add({name:"a3",cmd:"mobile",message:"请填写合法的手机号码"});
+	xyv.add({name:"a4",cmd:"email",message:"请填写合法的email"});
+	xyv.add({name:"a5",cmd:"tel",message:"请填写合法的固话号码"});
+	xyv.add({name:"a6",cmd:"checked",minCheckedNum:2,maxCheckedNum:3,message:"请选择2-3项兴趣/爱好"});
+	xyv.add({name:"a7",cmd:"regexp",regexp:"^[a-zA-Z0-9]{0,}$",message:"请填数字字母组成的用户名"});
+	xyv.add({name:"a8",cmd:"date",message:"请填写合法出生日期"});
+	xyv.add({name:"a8",cmd:"date",beginDate:"1900-01-01",endDate:"2014-01-01",message:"出生日期必须在 1900-01-01至2014-01-01 之间"});
+})();
+</script>
+</body>
+</html>
